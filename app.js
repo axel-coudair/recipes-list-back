@@ -1,18 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var session = require('express-session')
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const session = require('express-session')
 
-var bodyParser = require("body-parser");
-var app = express();
-var mongoose = require('mongoose');
+const bodyParser = require("body-parser");
+const app = express();
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var config = require("./config");
+const config = require("./config");
 
 mongoose.connect(
   process.env.MONGODB_URI ||
@@ -28,13 +29,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var db = mongoose.connection;
+
+//handle mongo error
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  // we're connected!
+});
+
 
 //use sessions for tracking logins
 app.use(session({
 	secret: 'work hard',
 	resave: true,
-	saveUninitialized: false
-  }))
+	saveUninitialized: false,
+	store: new MongoStore({
+	  mongooseConnection: db
+	})
+}))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
