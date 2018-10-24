@@ -5,13 +5,18 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var bodyParser = require("body-parser");
+var app = express();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+var mongoose = require('mongoose');
 
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-
-var app = express();
+mongoose.connect(
+process.env.MONGODB_URI ||
+"mongodb://heroku_5gnmvnr6:fpv8dh6cpmh41qfoaojf8480v6@ds119395.mlab.com:19395/heroku_5gnmvnr6"
+);
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+const routes = require('./routes');
 
 var config = require("./config");
 
@@ -21,29 +26,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
-});
+	next(createError(404))
+})
+
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function(err, req, res) {
+	// set locals, only providing error in development
+	res.locals.message = err.message
+	res.locals.error = req.app.get('env') === 'development' ? err : {}
 
-  // render the error page
-  res.status(err.status || 500);
-  res.json({status:"success", message:"Welcom to Atypik API"})
-  
-});
+	// render the error page
+	res.status(err.status || 500)
+	// res.render('error')
+})
 
-//init route
-let routes = require("./routes");
-routes(app);
 
 //Launch app
 app.listen(config.PORT, () => {

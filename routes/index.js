@@ -1,19 +1,26 @@
-var express = require('express');
-var router = express.Router();
 
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
+const express = require('express')
+const router = express.Router()
+// const db = require('../sdks/sequelize')
+// const { ROUTES } = require('../utils/constants')
 
-// module.exports = router;
+// const NAMESPACE = ROUTES.posts
 
-module.exports = app => {
-  app
-    .route("/messages")
-    .get((req, res) => {
-      console.log("getAll message");
-      return res.status(200).json();
-    })
-};
-
+/* GET users listing. */
+router.get('/', function(req, res) {
+	// db.get(NAMESPACE)
+	// 	.then((response) => {
+	// 		console.log(response)
+	// 		if (response && response.errors)
+	// 			throw response.errors
+	// 		else
+	// 		if (!response)
+	// 			return res.json({})
+			return res.json({response : "hjhkj"})
+	// 	})
+	// 	.catch(err => {
+	// 		console.log('err', err)
+	// 		return res.json({status: 'error'})
+	// 	})
+})
+module.exports = router
