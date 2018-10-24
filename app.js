@@ -6,19 +6,20 @@ var logger = require('morgan');
 
 var bodyParser = require("body-parser");
 var app = express();
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 var mongoose = require('mongoose');
 
-mongoose.connect(
-process.env.MONGODB_URI ||
-"mongodb://heroku_5gnmvnr6:fpv8dh6cpmh41qfoaojf8480v6@ds119395.mlab.com:19395/heroku_5gnmvnr6"
-);
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const routes = require('./routes');
 
 var config = require("./config");
+
+mongoose.connect(
+  process.env.MONGODB_URI ||
+  "mongodb://heroku_5gnmvnr6:fpv8dh6cpmh41qfoaojf8480v6@ds119395.mlab.com:19395/heroku_5gnmvnr6"
+);
+
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -46,7 +47,6 @@ app.use(function(err, req, res) {
 	res.status(err.status || 500)
 	// res.render('error')
 })
-
 
 //Launch app
 app.listen(config.PORT, () => {
