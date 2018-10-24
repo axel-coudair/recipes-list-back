@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../controllers/user");
 const router = express.Router();
+const {requiresLogin} = require("../middlewares")
 
 /* GET users listing. */
 router.get("/", function(req, res) {
@@ -49,6 +50,21 @@ router.post("/sign-in", function(req, res) {
         req.session.userId = user._id;
         return res.json({test: "/profile"});
         // return res.redirect("/profile");
+      }
+    });
+  }
+});
+
+// GET /logout
+router.get('/logout', requiresLogin, function(req, res, next) {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function(err) {
+      if(err) {
+        return next(err);
+      } else {
+        return res.status(204).send()
+        // return res.redirect('/');
       }
     });
   }
