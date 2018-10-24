@@ -7,7 +7,7 @@ router.get("/", function(req, res) {
   return res.json({ response: "hjhkj" });
 });
 
-router.post("/", function(req, res, next) {
+router.post("/", function(req, res) {
   if (
     req.body.email &&
     req.body.username &&
@@ -32,7 +32,7 @@ router.post("/", function(req, res, next) {
   }
 });
 
-router.post("/sign-in", function(req, res, next) {
+router.post("/sign-in", function(req, res) {
   if (
     req.body.email &&
     req.body.password
