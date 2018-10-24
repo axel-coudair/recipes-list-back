@@ -1,29 +1,29 @@
 var mongoose = require('mongoose');
-const House = require('./house')
-var UserSchema = new mongoose.Schema({
-  email: {
+var RecipesSchema = new mongoose.Schema({
+  houseId: {
     type: String,
     unique: true,
     required: true,
     trim: true
   },
-  username: {
+  title: {
     type: String,
     unique: true,
     required: true,
     trim: true
   },
-  house: {
-    type: Schema.Types.ObjectId, ref: 'House'
-  },
-  password: {
+  steps: {
     type: String,
+    unique: true,
     required: true,
+    trim: true
   },
-  passwordConf: {
+  ingredients: {
     type: String,
+    unique: true,
     required: true,
+    trim: true
   }
 });
-var User = mongoose.model('User', UserSchema);
-module.exports = User;
+var Recipes = mongoose.model('Recipes', RecipesSchema);
+module.exports = Recipes;

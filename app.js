@@ -12,6 +12,8 @@ const MongoStore = require('connect-mongo')(session);
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const recipesRouter = require('./routes/recipes');
+const housesRouter = require('./routes/houses');
 
 const config = require("./config");
 
@@ -50,6 +52,8 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/recipes', recipesRouter);
+app.use('/houses', housesRouter);
 
 
 // catch 404 and forward to error handler
