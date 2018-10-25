@@ -8,10 +8,10 @@ function requiresLogin(req, res, next) {
     }
 }
 
-function findById(model,populate, req, res, next) {
-    if (populate){
+function findById(model,populateQuery, req, res, next) {
+    if (populateQuery){
 
-        model.findById(req.params.id).populate(populate).exec(function(err, recipe){
+        model.findById(req.params.id).populate(populateQuery).exec(function(err, recipe){
           if (err) {
             return next(err);
           } else {

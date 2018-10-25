@@ -8,7 +8,7 @@ router.get("/", function(req, res) {
   return res.json({ response: "hjhkj" });
 });
 
-router.get("/:id", (req, res, next) => findById(House, "adminId", req, res, next)
+router.get("/:id", (req, res, next) => findById(House, ["adminId", "users"], req, res, next)
 );
 
 router.post("/", function(req, res, next) {
@@ -18,14 +18,34 @@ router.post("/", function(req, res, next) {
   ) {
     var userData = {
       name: req.body.name,
-      adminId: req.body.adminId
+      adminId: req.body.adminId,
+      users: [req.body.adminId]
     };
     //use schema.create to insert data into the db
-    House.create(userData, function(err, user) {
+    House.create(userData, function(err, house) {
       if (err) {
         return next(err);
       } else {
+
         return res.json({ status: "success", message: "House Created" });
+      }
+    });
+  } else next()
+});
+
+router.put("/:id/user", function(req, res, next) {
+  if (
+    req.body.user
+  ) {
+    //use schema.create to insert data into the db
+    House.update(
+      { _id: req.params.id }, 
+      { $push: { users: req.body.user } }
+      ,  function(err, user) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.json({ status: "success", message: "User is added in the house" });
       }
     });
   } else next()
