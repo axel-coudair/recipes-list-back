@@ -41,27 +41,16 @@ router.post("/", function(req, res, next) {
   } else next()
 });
 
-// router.post("/", function(req, res, next) {
-//   if (
-//     req.body.title &&
-//     req.body.description &&
-//     req.body.ingredients
-//   ) {
-//     var userData = {
-//       title: req.body.title,
-//       description: req.body.description,
-//       ingredients: req.body.ingredients
-//     };
-//     console.log("fdfdsfdq")
-//     //use schema.create to insert data into the db
-//     Recipe.create(userData, function(err, user) {
-//       if (err) {
-//         return next(err);
-//       } else {
-//         return res.json({ status: "success", message: "Recipe Created" });
-//       }
-//     });
-//   } else next()
-// });
+router.get("/house/:houseId/", function(req, res, next) {
+    //use schema.create to insert data into the db
+    Recipe.find(
+      { houseId: req.params.houseId },  function(err, recipes) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.json({ status: "success", recipes });
+      }
+    });
+});
 
 module.exports = router;
