@@ -1,10 +1,11 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'), Schema = mongoose.Schema;
+const House = require('./house')
+
 var RecipesSchema = new mongoose.Schema({
   houseId: {
-    type: String,
-    unique: true,
-    // required: true,
-    trim: true
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'House'
   },
   title: {
     type: String,
@@ -14,13 +15,15 @@ var RecipesSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    unique: true,
     required: true,
     trim: true
   },
+  public: {
+    type: Boolean,
+    default: false
+  },
   ingredients: [{
     type: String,
-    unique: true,
     // required: true,
     trim: true
   }]

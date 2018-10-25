@@ -1,12 +1,15 @@
 const express = require("express");
 const User = require("../controllers/user");
 const router = express.Router();
-const {requiresLogin} = require("../middlewares")
+const {requiresLogin, findById} = require("../middlewares")
 
 /* GET users listing. */
 router.get("/", function(req, res) {
   return res.json({ response: "hjhkj" });
 });
+
+router.get("/:id", (req, res, next) => findById(User, null, req, res, next)
+);
 
 router.post("/", function(req, res) {
   if (
