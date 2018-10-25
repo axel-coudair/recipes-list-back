@@ -14,9 +14,8 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const recipesRouter = require('./routes/recipes');
 const housesRouter = require('./routes/houses');
-
+const planningsRouter = require('./routes/plannings')
 const config = require("./config");
-
 mongoose.connect(
   process.env.MONGODB_URI ||
   "mongodb://heroku_5gnmvnr6:fpv8dh6cpmh41qfoaojf8480v6@ds119395.mlab.com:19395/heroku_5gnmvnr6"
@@ -54,7 +53,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/recipes', recipesRouter);
 app.use('/houses', housesRouter);
-
+app.use('/plannings', planningsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

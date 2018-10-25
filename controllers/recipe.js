@@ -1,6 +1,5 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
 const House = require('./house')
-const Ingredient = require('./ingredient')
 
 var RecipesSchema = new mongoose.Schema({
   houseId: {
