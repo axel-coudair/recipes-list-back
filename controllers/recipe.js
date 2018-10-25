@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
 const House = require('./house')
+const Ingredient = require('./ingredient')
 
 var RecipesSchema = new mongoose.Schema({
   houseId: {
@@ -13,6 +14,11 @@ var RecipesSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  numberOfEaters: {
+    type: Number,
+    required: true,
+    trim: true
+  },
   description: {
     type: String,
     required: true,
@@ -23,9 +29,9 @@ var RecipesSchema = new mongoose.Schema({
     default: false
   },
   ingredients: [{
-    type: String,
-    // required: true,
-    trim: true
+    type: Object,
+    required: true,
+    ref: 'Ingredient'
   }]
 });
 var Recipes = mongoose.model('Recipes', RecipesSchema);

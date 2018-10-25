@@ -20,16 +20,17 @@ router.post("/", function(req, res, next) {
   if (
     req.body.title &&
     req.body.description &&
-    req.body.ingredients  &&
-    req.body.houseId 
+    req.body.ingredients &&
+    req.body.houseId &&
+    req.body.numberOfEaters 
   ) {
     var userData = {
       title: req.body.title,
       description: req.body.description,
       ingredients: req.body.ingredients,
-      houseId: req.body.houseId
+      houseId: req.body.houseId,
+      numberOfEaters: req.body.numberOfEaters 
     };
-    console.log(userData)
     //use schema.create to insert data into the db
     Recipe.create(userData, function(err, user) {
       if (err) {
