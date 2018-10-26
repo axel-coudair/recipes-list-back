@@ -15,11 +15,11 @@ const usersRouter = require('./routes/users');
 const recipesRouter = require('./routes/recipes');
 const housesRouter = require('./routes/houses');
 
-const config = require("./config");
+const {MONGODB_URI, PORT} = require("./config");
 
 mongoose.connect(
   process.env.MONGODB_URI ||
-  "mongodb://heroku_5gnmvnr6:fpv8dh6cpmh41qfoaojf8480v6@ds119395.mlab.com:19395/heroku_5gnmvnr6"
+  MONGODB_URI
 );
 
 app.use(bodyParser.json()); // for parsing application/json
@@ -75,8 +75,8 @@ app.use(function(err, req, res) {
 
 
 //Launch app
-app.listen(config.PORT, () => {
-  console.log(`App start on port ${config.PORT}`);
+app.listen(PORT, () => {
+  console.log(`App start on port ${PORT}`);
 });
 
 module.exports = app;
