@@ -1,6 +1,8 @@
 const express = require("express");
+const House = require("../controllers/house");
 const User = require("../controllers/user");
 const router = express.Router();
+const mongoose = require('mongoose');
 const {requiresLogin, findById} = require("../middlewares")
 
 /* GET users listing. */
@@ -71,5 +73,16 @@ router.get('/logout', requiresLogin, function(req, res, next) {
       }
     });
   }
+});
+
+router.get("/:id/houses", function(req, res, next) {
+    //use schema.create to insert data into the db
+  House.find({'users':  mongoose.Types.ObjectId(req.params.id)},  function(err, houses) {
+    if (err) {
+      return next(err);
+    } else {
+      return res.json({ status: "success", houses });
+    }
+  });
 });
 module.exports = router;
