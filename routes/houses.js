@@ -50,4 +50,15 @@ router.put("/:id/user", function(req, res, next) {
     });
   } else next()
 });
+
+router.get("/:id/users", function(req, res, next) {
+    //use schema.create to insert data into the db
+  House.findById(req.params.id).populate("users").exec(function(err, house) {
+    if (err) {
+      return next(err);
+    } else {
+      return res.json({ status: "success", users : house.users });
+    }
+  });
+});
 module.exports = router;

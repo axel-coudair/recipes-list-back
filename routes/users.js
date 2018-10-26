@@ -75,7 +75,7 @@ router.get('/logout', requiresLogin, function(req, res, next) {
   }
 });
 
-router.get("/:id/house", function(req, res, next) {
+router.get("/:id/houses", function(req, res, next) {
     //use schema.create to insert data into the db
   House.find({'users':  mongoose.Types.ObjectId(req.params.id)},  function(err, houses) {
     if (err) {
