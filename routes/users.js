@@ -6,11 +6,26 @@ const mongoose = require('mongoose');
 const { requiresLogin, findById } = require("../middlewares")
 
 /* GET users listing. */
-router.get("/", function (req, res) {
+router.get("/", requiresLogin, function (req, res) {
   return res.json({ response: "hjhkj" });
 });
 
-router.get("/:id", (req, res, next) => findById(User, null, req, res, next)
+// GET /logout
+router.get('/logout', requiresLogin, function (req, res, next) {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.status(204).send()
+        // return res.redirect('/');
+      }
+    });
+  }
+});
+
+router.get("/:id", requiresLogin, (req, res, next) => findById(User, null, req, res, next)
 );
 
 router.post("/", function (req, res, next) {
@@ -60,23 +75,8 @@ router.post("/sign-in", function (req, res, next) {
   }
 });
 
-// GET /logout
-router.get('/logout', requiresLogin, function (req, res, next) {
-  if (req.session) {
-    // delete session object
-    req.session.destroy(function (err) {
-      if (err) {
-        console.log("acqui")
-        return next(err);
-      } else {
-        return res.status(204).send()
-        // return res.redirect('/');
-      }
-    });
-  }
-});
 
-router.get("/:id/houses", function (req, res, next) {
+router.get("/:id/houses", requiresLogin, function (req, res, next) {
   //use schema.create to insert data into the db
   House.find({ 'users': mongoose.Types.ObjectId(req.params.id) }, function (err, houses) {
     if (err) {

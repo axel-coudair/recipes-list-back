@@ -4,7 +4,7 @@ const router = express.Router();
 const {requiresLogin, findById} = require("../middlewares")
 
 /* GET users listing. */
-router.get("/", function(req, res) {
+router.get("/", requiresLogin, function(req, res) {
   return res.json({ response: "hjhkj" });
 });
 

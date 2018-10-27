@@ -4,7 +4,7 @@ const router = express.Router();
 const {requiresLogin, findById} = require("../middlewares")
 
 /* GET users listing. */
-router.get("/", function(req, res) {
+router.get("/", requiresLogin, function(req, res) {
   if (err) {
     return next(err);
   } else {
@@ -13,7 +13,7 @@ router.get("/", function(req, res) {
 });
 
 /* GET users listing. */
-router.get("/:id", (req, res, next) => findById(Recipe, "houseId" , req, res, next)
+router.get("/:id", requiresLogin, (req, res, next) => findById(Recipe, "houseId" , req, res, next)
 );
 
 router.post("/", function(req, res, next) {
@@ -42,7 +42,7 @@ router.post("/", function(req, res, next) {
   } else next()
 });
 
-router.get("/house/:houseId/", function(req, res, next) {
+router.get("/house/:houseId/", requiresLogin, function(req, res, next) {
     //use schema.create to insert data into the db
     Recipe.find(
       { houseId: req.params.houseId },  function(err, recipes) {

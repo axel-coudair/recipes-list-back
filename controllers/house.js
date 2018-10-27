@@ -14,7 +14,11 @@ var HouseSchema = new mongoose.Schema({
     unique: true,
     required: true,
     trim: true
-  }
+  },
+  // password: {
+  //   type: String,
+  //   required: true, select: false
+  // },
 });
 var House = mongoose.model('House', HouseSchema);
 module.exports = House;
