@@ -13,6 +13,7 @@ const MongoStore = require('connect-mongo')(session);
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const recipesRouter = require('./routes/recipes');
+const planningsRouter = require('./routes/plannings');
 const housesRouter = require('./routes/houses');
 const {MONGODB_URI, PORT} = require("./config");
 mongoose.connect(
