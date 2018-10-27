@@ -8,10 +8,10 @@ router.get("/", function(req, res) {
   return res.json({ response: "hjhkj" });
 });
 
-router.get("/:id", (req, res, next) => findById(Planning, ["adminId", "users"], req, res, next)
+router.get("/:id", requiresLogin, (req, res, next) => findById(Planning, ["adminId", "users"], req, res, next)
 );
 
-router.post("/", function(req, res, next) {
+router.post("/", requiresLogin, function(req, res, next) {
   console.log("kjbjkl");
   if (
     req.body.houseId,
@@ -36,7 +36,7 @@ router.post("/", function(req, res, next) {
   } else next()
 });
 
-router.get("/house/:houseId/", function(req, res, next) {
+router.get("/house/:houseId/", requiresLogin, function(req, res, next) {
   //use schema.create to insert data into the db
   Planning.find(
     { houseId: req.params.houseId }).populate(["houseId", "recipeId"]).exec(function(err, plannings) {
