@@ -68,7 +68,7 @@ router.post("/sign-in", function (req, res, next) {
         return next(err);
       } else {
         req.session.userId = user._id;
-        return res.json({ test: "/profile" });
+        return res.json({ status: "success", message: "User logged" });
         // return res.redirect("/profile");
       }
     });
