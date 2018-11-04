@@ -15,11 +15,11 @@ var UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: true, select: false
   },
   passwordConf: {
     type: String,
-    required: true,
+    required: true, select: false
   }
 });
 
@@ -37,7 +37,7 @@ UserSchema.pre('save', function (next) {
 
 //authenticate input against database
 UserSchema.statics.authenticate = function (email, password, callback) {
-  User.findOne({ email: email })
+  User.findOne({ email: email }).select('+password')
     .exec(function (err, user) {
       if (err) {
         return callback(err)
