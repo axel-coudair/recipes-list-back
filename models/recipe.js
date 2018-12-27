@@ -1,11 +1,17 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
-const House = require('./house')
+const User = require('./user')
+// const House = require('./house')
 
 var RecipesSchema = new mongoose.Schema({
-  houseId: {
+  // houseId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: 'House'
+  // },
+  userId: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'House'
+    ref: 'User'
   },
   title: {
     type: String,
@@ -23,7 +29,7 @@ var RecipesSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  public: {
+  isPublic: {
     type: Boolean,
     default: false
   },

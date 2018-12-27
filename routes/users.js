@@ -72,7 +72,7 @@ router.post("/sign-in", function (req, res, next) {
       } else {
         req.session.userId = user._id;
         // return res.json({ status: "success", message: "User logged" });
-        return res.json({token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id}, 'RESTFULAPIs')});
+        return res.json({ token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs', { expiresIn: '1h' }) });
         // return res.redirect("/profile");
       }
     });

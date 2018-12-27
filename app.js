@@ -10,17 +10,17 @@ const app = express();
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const User = require('./models/user'),
-jwt = require("jsonwebtoken");
+	jwt = require("jsonwebtoken");
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const recipesRouter = require('./routes/recipes');
 const planningsRouter = require('./routes/plannings');
 const housesRouter = require('./routes/houses');
-const {MONGODB_URI, PORT} = require("./config");
+const { MONGODB_URI, PORT } = require("./config");
 mongoose.connect(
-  process.env.MONGODB_URI ||
-  MONGODB_URI, { useNewUrlParser: true }
+	process.env.MONGODB_URI ||
+	MONGODB_URI, { useNewUrlParser: true }
 );
 
 app.use(bodyParser.json()); // for parsing application/json
@@ -34,23 +34,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var db = mongoose.connection;
 
-app.use(function(req, res, next) {
-	if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT' ){
-		jwt.verify(req.headers.authorization.split(' ')[1], "RESTFULAPIs", function(err, decode) {
-			if(err) req.user = undefined
+app.use(function (req, res, next) {
+	if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
+		jwt.verify(req.headers.authorization.split(' ')[1], "RESTFULAPIs", function (err, decode) {
+			if (err) req.user = undefined
 			req.user = decode
 			next();
 		})
 	} else {
 		req.user = undefined
-			next();
+		next();
 	}
 })
 
 //handle mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  // we're connected!
+	// we're connected!
 });
 
 
@@ -60,7 +60,7 @@ app.use(session({
 	resave: true,
 	saveUninitialized: false,
 	store: new MongoStore({
-	  mongooseConnection: db
+		mongooseConnection: db
 	})
 }))
 
@@ -88,23 +88,23 @@ app.use('/plannings', planningsRouter);
 // catch 404 and forward to error handler
 
 function clientErrorHandler(err, req, res, next) {
-  if (req.xhr) {
-    res.status(500).send({ error: 'Something failed!' });
-  } else {
-    next(err);
-  }
+	if (req.xhr) {
+		res.status(500).send({ error: 'Something failed!' });
+	} else {
+		next(err);
+	}
 }
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
 	// set locals, only providing error in development
+	console.log(err);
 	res.locals.message = err.message
 	res.locals.error = req.app.get('env') === 'development' ? err : {}
 	return res.status(err.status || 500).json({ status: "error", message: err.message })
-
 });
 
 //Launch app
 app.listen(PORT, () => {
-  console.log(`App start on port ${PORT}`);
+	console.log(`App start on port ${PORT}`);
 });
 
 module.exports = app;
