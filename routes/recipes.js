@@ -24,6 +24,10 @@ router.post("/", function (req, res, next) {
     req.body.description &&
     req.body.ingredients &&
     req.body.userId &&
+    req.body.image &&
+    req.body.date &&
+    req.body.duration &&
+    req.body.stapes &&
     req.body.numberOfEaters
   ) {
     var userData = {
@@ -31,6 +35,10 @@ router.post("/", function (req, res, next) {
       description: req.body.description,
       ingredients: req.body.ingredients,
       userId: req.body.userId,
+      image: req.body.image,
+      date: req.body.date,
+      duration: req.body.duration,
+      stapes: req.body.stapes,
       numberOfEaters: req.body.numberOfEaters
     };
     
