@@ -25,7 +25,6 @@ router.post("/", function (req, res, next) {
     req.body.ingredients &&
     req.body.userId &&
     req.body.image &&
-    req.body.date &&
     req.body.duration &&
     req.body.stapes &&
     req.body.numberOfEaters
@@ -36,12 +35,12 @@ router.post("/", function (req, res, next) {
       ingredients: req.body.ingredients,
       userId: req.body.userId,
       image: req.body.image,
-      date: req.body.date,
+      date: new Date().getTime(),
       duration: req.body.duration,
       stapes: req.body.stapes,
       numberOfEaters: req.body.numberOfEaters
     };
-    
+
     //use schema.create to insert data into the db
     Recipe.create(userData, function (err, user) {
       if (err) {
