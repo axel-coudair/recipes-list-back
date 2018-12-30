@@ -46,7 +46,8 @@ router.post("/", function (req, res, next) {
       if (err) {
         return next(err);
       } else {
-        return res.json({ status: "success", message: "Recipe Created" });
+        // return res.json({ status: "success", message: "Recipe Created" });
+        return res.status(201).send();
       }
     });
   } else next()
@@ -75,5 +76,30 @@ router.get("/user/:userId/", requiresLogin, function (req, res, next) {
       }
     });
 });
+
+router.patch('/:recipeId', requiresLogin, function (req, res, next) {
+  var updateObject = req.body;
+  Recipe.update({ _id: req.params.recipeId }, { $set: updateObject }, function (err, user) {
+    if (err) {
+      return next(err);
+    } else {
+      //return res.json({ status: "success", message: "Recipe is updated" });
+      return res.status(200).send();
+    }
+  });
+});
+
+router.delete('/:recipeId', requiresLogin, function (req, res, next) {
+  Recipe.findOneAndRemove({ '_id': req.params.recipeId }, function (err, offer) {
+    if (err) {
+      return next(err);
+    } else {
+      // return res.json({ status: "success", message: "Recipe is updated" });
+      return res.status(200).send();
+
+    }
+  });
+});
+
 
 module.exports = router;
