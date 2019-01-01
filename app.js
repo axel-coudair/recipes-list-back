@@ -17,13 +17,14 @@ const usersRouter = require('./routes/users');
 const recipesRouter = require('./routes/recipes');
 const planningsRouter = require('./routes/plannings');
 const housesRouter = require('./routes/houses');
-const { MONGODB_URI, PORT } = require("./config");
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').load();
+}
 mongoose.connect(
-	process.env.MONGODB_URI ||
-	MONGODB_URI, {
+	process.env.MONGODB_URI, {
 		useCreateIndex: true,
 		useNewUrlParser: true
-	  }
+	}
 );
 
 app.use(bodyParser.json()); // for parsing application/json
@@ -106,8 +107,8 @@ app.use(function (err, req, res, next) {
 });
 
 //Launch app
-app.listen(PORT, () => {
-	console.log(`App start on port ${PORT}`);
+app.listen(process.env.PORT, () => {
+	console.log(`App start on port ${process.env.PORT}`);
 });
 
 module.exports = app;
