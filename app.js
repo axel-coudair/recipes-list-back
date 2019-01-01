@@ -20,7 +20,10 @@ const housesRouter = require('./routes/houses');
 const { MONGODB_URI, PORT } = require("./config");
 mongoose.connect(
 	process.env.MONGODB_URI ||
-	MONGODB_URI, { useNewUrlParser: true }
+	MONGODB_URI, {
+		useCreateIndex: true,
+		useNewUrlParser: true
+	  }
 );
 
 app.use(bodyParser.json()); // for parsing application/json
