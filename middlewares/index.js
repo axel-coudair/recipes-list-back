@@ -1,7 +1,8 @@
 function requiresLogin(req, res, next) {
     console.log(req.session)
-    if (req.session && req.session.userId) {
-        return next();
+    
+    if (req.user) {
+        next();
     } else {
         var err = new Error("You must be logged in to view this page.");
         err.status = 401;

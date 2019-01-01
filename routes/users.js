@@ -1,8 +1,11 @@
 const express = require("express");
-const House = require("../controllers/house");
-const User = require("../controllers/user");
 const router = express.Router();
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+
+const House = require("../models/house");
+const User = require("../models/user");
+
 const { requiresLogin, findById } = require("../middlewares")
 
 /* GET users listing. */
@@ -68,7 +71,8 @@ router.post("/sign-in", function (req, res, next) {
         return next(err);
       } else {
         req.session.userId = user._id;
-        return res.json({ status: "success", message: "User logged" });
+        // return res.json({ status: "success", message: "User logged" });
+        return res.json({ token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs', { expiresIn: '1h' }) });
         // return res.redirect("/profile");
       }
     });

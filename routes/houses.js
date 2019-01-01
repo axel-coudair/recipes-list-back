@@ -1,11 +1,17 @@
 const express = require("express");
-const House = require("../controllers/house");
+const House = require("../models/house");
 const router = express.Router();
 const {requiresLogin, findById} = require("../middlewares")
 
 /* GET users listing. */
 router.get("/", requiresLogin, function(req, res) {
-  return res.json({ response: "hjhkj" });
+  House.find({}, function(err, houses) {
+    if (err) {
+      return next(err);
+    } else {
+    return res.json({ houses });
+    }
+  });
 });
 
 router.get("/:id", requiresLogin, (req, res, next) => findById(House, ["adminId", "users"], req, res, next)
