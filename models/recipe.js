@@ -15,10 +15,28 @@ var RecipesSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    unique: true,
     required: true,
     trim: true
   },
+  image: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  date: {
+    type: Date,
+    required: true,
+    trim: true
+  },
+  duration: {
+    type: Number,
+    trim: true
+  },
+  stapes: [{
+    type: String,
+    required: true,
+    trim: true
+  }],
   numberOfEaters: {
     type: Number,
     required: true,

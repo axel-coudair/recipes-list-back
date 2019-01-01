@@ -24,6 +24,9 @@ router.post("/", function (req, res, next) {
     req.body.description &&
     req.body.ingredients &&
     req.body.userId &&
+    req.body.image &&
+    req.body.duration &&
+    req.body.stapes &&
     req.body.numberOfEaters
   ) {
     var userData = {
@@ -31,15 +34,20 @@ router.post("/", function (req, res, next) {
       description: req.body.description,
       ingredients: req.body.ingredients,
       userId: req.body.userId,
+      image: req.body.image,
+      date: new Date().getTime(),
+      duration: req.body.duration,
+      stapes: req.body.stapes,
       numberOfEaters: req.body.numberOfEaters
     };
-    
+
     //use schema.create to insert data into the db
     Recipe.create(userData, function (err, user) {
       if (err) {
         return next(err);
       } else {
-        return res.json({ status: "success", message: "Recipe Created" });
+        // return res.json({ status: "success", message: "Recipe Created" });
+        return res.status(201).send();
       }
     });
   } else next()
@@ -68,5 +76,30 @@ router.get("/user/:userId/", requiresLogin, function (req, res, next) {
       }
     });
 });
+
+router.patch('/:recipeId', requiresLogin, function (req, res, next) {
+  var updateObject = req.body;
+  Recipe.update({ _id: req.params.recipeId }, { $set: updateObject }, function (err, user) {
+    if (err) {
+      return next(err);
+    } else {
+      //return res.json({ status: "success", message: "Recipe is updated" });
+      return res.status(200).send();
+    }
+  });
+});
+
+router.delete('/:recipeId', requiresLogin, function (req, res, next) {
+  Recipe.findOneAndRemove({ '_id': req.params.recipeId }, function (err, offer) {
+    if (err) {
+      return next(err);
+    } else {
+      // return res.json({ status: "success", message: "Recipe is updated" });
+      return res.status(200).send();
+
+    }
+  });
+});
+
 
 module.exports = router;
