@@ -107,8 +107,8 @@ app.use(function (err, req, res, next) {
 });
 
 //Launch app
-app.listen(process.env.PORT, () => {
-	console.log(`App start on port ${process.env.PORT}`);
+app.listen(process.env.PORT || 8080, () => {
+	console.log(`App start on port ${process.env.PORT || 8080}`);
 });
 
 module.exports = app;
